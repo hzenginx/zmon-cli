@@ -769,6 +769,7 @@ class Zmon:
 
             {
                 "entities": ["entity-id-1", "entity-id-2"],
+                "alert_definitions": [14, 2],
                 "comment": "Planned maintenance",
                 "start_time": 1473337437.312921,
                 "end_time": 1473341037.312921,

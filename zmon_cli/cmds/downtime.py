@@ -19,10 +19,13 @@ def downtimes():
 @click.argument('entity_ids', nargs=-1)
 @click.option('-d', '--duration', type=int, help='downtime duration in minutes', default=60)
 @click.option('-c', '--comment')
+@click.option('--alert', '-a', multiple=True, required=False, type=int,
+              help=('create downtime only for entities belonging to this alert. '
+                    'Passing multiple alerts IDs is supported.'))
 @click.pass_obj
 @yaml_output_option
 @pretty_json
-def create_downtime(obj, entity_ids, duration, comment, output, pretty):
+def create_downtime(obj, entity_ids, duration, comment, alert, output, pretty):
     """Create downtime for specified entities"""
     client = get_client(obj.config)
 
@@ -33,7 +36,8 @@ def create_downtime(obj, entity_ids, duration, comment, output, pretty):
         'entities': entity_ids,
         'comment': comment or 'downtime by ZMON CLI',
         'start_time': start_ts,
-        'end_time': end_ts
+        'end_time': end_ts,
+        'alert_definitions': alert or None
     }
 
     with Output('Creating downtime ...', nl=True, output=output, pretty_json=pretty) as act:
